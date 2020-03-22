@@ -11,7 +11,7 @@ class App extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: "http://127.0.0.1:4001",  //Endpoint for finding backend
+      endpoint: process.env.BACKEND || "http://127.0.0.1:4001",  //Endpoint for finding backend
       last_reset: "Never",
       logged: [],
       game_phase: 0    // 0: loggin in; 1: started
@@ -21,6 +21,7 @@ class App extends Component {
   componentDidMount() {
     const { endpoint } = this.state;
     this.socket = socketIOClient(endpoint);
+    console.log(endpoint);
     initializeSocket(this);
   }
 
