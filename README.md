@@ -1,4 +1,4 @@
-#Online Bang game
+# Online Bang game
 The game is made by two parts: the backend, which listen on port 4001 and manage the game, and the frontend, which listen on port 3000.
 
 The backend is a simple Node.js app, while the frontend uses React.
