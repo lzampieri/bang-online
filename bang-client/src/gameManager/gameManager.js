@@ -7,6 +7,6 @@ export function initialize(theApp) {
 }
 
 export function startGame(theApp) {
-    theApp.socket.emit('newDeck', {deck: Deck.newDeck()} );
+    theApp.socket.emit('startGame', {deck: Deck.newDeck()} );
 }
 

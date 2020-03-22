@@ -1,10 +1,11 @@
 const utils = require('../utils')
 
-function init(socket) {
-    socket.on('newDeck', (newDeck) => {
-        deck = utils.shuffle(newDeck.deck);
-        console.log(deck);
-        socket.broadcast.emit('gameStarted');
+function init(socket, theServer) {
+    socket.on('startGame', (startGame) => {
+        theServer.login_allowed = false;
+        theServer.deck = utils.shuffle(startGame.deck);
+        console.log("Game started");
+        theServer.io.sockets.emit('gameStarted');
     })
 }
 

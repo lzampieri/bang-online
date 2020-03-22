@@ -8,7 +8,7 @@ app.get('*', function(req, res) {
 });
 
 // Load socket
-const initSocket = require('./socket')
-initSocket(server)
+const BangOnlineServer = require('./BangOnlineServer');
+const theServer = new BangOnlineServer(server);
 
 server.listen(4001);

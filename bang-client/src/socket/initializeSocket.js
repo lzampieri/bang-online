@@ -7,6 +7,8 @@ export default function initializeSocket(theApp) {
         theApp.socket.emit('login', {username: username} );
     });
 
+    theApp.socket.on('login_disallowed', () => alert("La partita è già iniziata. Impossibile collegarsi."));
+
     theApp.socket.on('rebuild', (rebuild) => {
         theApp.setState( {
             last_reset: rebuild.last_reset,
