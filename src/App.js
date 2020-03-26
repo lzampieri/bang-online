@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import ShowLastReset from './components/ShowLastReset'
@@ -7,20 +6,22 @@ import Player from './components/Player';
 import PlayersList from './components/PlayersList'
 import * as gameManager from './gameManager/gameManager'
 import MySelf from './components/MySelf';
+import LoginModal from './components/LoginModal';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      response: false,
       endpoint: process.env.REACT_APP_BACKEND || "http://127.0.0.1:4001",  //Endpoint for finding backend
       last_reset: "Never",
       logged: [],
       game_phase: 0,    // 0: loggin in; 1: started
       myself_uname: null,
       myself_role: null,
-      muself_cards: []
+      muself_cards: [],
+      login_state: 0    // 0: nothing, text: modal, 2: modal+spinner
     };
+    this.loginModal = new LoginModal();
   }
 
   componentDidMount() {
@@ -31,9 +32,22 @@ class App extends Component {
   }
 
   render() {
-    //const { response } = this.state;
     return (
       <div>
+        { this.state.game_phase === 0 && (
+          <LoginModal
+            state={this.state.login_state}
+            uname={this.state.myself_uname}
+            onChange={ (e) => {
+              this.setState( {myself_uname: e.target.value});
+            }}
+            onSend={() => {
+              this.socket.emit( 'login', {username: this.state.myself_uname} );
+              this.setState( {login_state: 0} );
+            }}
+            />
+        )}
+        
         { this.state.game_phase === 0 && (
           <ShowLastReset last_reset={this.state.last_reset} />
         )}

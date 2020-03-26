@@ -3,11 +3,9 @@ import * as gameManager from '../gameManager/gameManager'
 export default function initializeSocket(theApp) {
 
     theApp.socket.on('login', (login) => {
-        var username = prompt( login.text );
         theApp.setState( {
-            myself_uname: username
-        });
-        theApp.socket.emit('login', {username: username} );
+            login_state: login.text
+        })
     });
 
     theApp.socket.on('login_disallowed', () => {
