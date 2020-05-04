@@ -18,7 +18,8 @@ class App extends Component {
       game_phase: 0,    // 0: loggin in; 1: started
       myself_uname: null,
       myself_role: null,
-      muself_cards: [],
+      myself_cards: [],
+      myself_lifepoints: null,
       login_state: 0    // 0: nothing, text: modal, 2: modal+spinner
     };
     this.loginModal = new LoginModal();
@@ -61,7 +62,12 @@ class App extends Component {
         )}
 
         { this.state.game_phase === 1 && (
-          <MySelf myself_uname={this.state.myself_uname} myself_role={this.state.myself_role} />
+          <MySelf
+            myself_uname={this.state.myself_uname}
+            myself_role={this.state.myself_role}
+            myself_cards={this.state.myself_cards}
+            myself_lifepoints={this.state.myself_lifepoints}
+          />
         )}
 
         { this.state.game_phase === 1 &&

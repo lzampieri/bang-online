@@ -17,8 +17,8 @@
 <- login {username}
 
 ### Game start
-<- startGame {deck}  
+<- startGame
 -> case:  
 - noPlayers (number of player not suitable for the game)  
-- startGame {role} (each player receives its role)  
+- startGame {role} {lifepoints} {cards} (each player receives its role)  
     

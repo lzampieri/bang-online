@@ -1,9 +1,13 @@
-import * as Deck from '../cards/Deck'
-
 export function initialize(theApp) {
     theApp.socket.on('startGame', (startGame) => {
         console.log(startGame.role);
-        theApp.setState( {game_phase: 1, myself_role: startGame.role} );
+        console.log(startGame.cards);
+        theApp.setState( {
+            game_phase: 1,
+            myself_role: startGame.role,
+            myself_cards: startGame.cards,
+            myself_lifepoints: startGame.lifepoints
+        } );
     })
 
     theApp.socket.on('noPlayers', () => {
@@ -12,6 +16,6 @@ export function initialize(theApp) {
 }
 
 export function startGame(theApp) {
-    theApp.socket.emit('startGame', {deck: Deck.newDeck()} );
+    theApp.socket.emit('startGame');
 }
 
