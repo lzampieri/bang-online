@@ -14,13 +14,13 @@ class App extends Component {
     this.state = {
       endpoint: process.env.REACT_APP_BACKEND || "http://127.0.0.1:4001",  //Endpoint for finding backend
       last_reset: "Never",
-      logged: [],
-      game_phase: 0,    // 0: loggin in; 1: started
+      players: [], // username, lifepoints,
+      game_phase: -1,    // -1: waiting for server, 0: loggin in; 1: started
       myself_uname: null,
       myself_role: null,
       myself_cards: [],
       myself_lifepoints: null,
-      login_state: 0    // 0: nothing, text: modal, 2: modal+spinner
+      login_state: 0    // 0: nothing, text: modal
     };
     this.loginModal = new LoginModal();
   }
@@ -35,6 +35,12 @@ class App extends Component {
   render() {
     return (
       <div>
+        { this.state.game_phase === -2 && (
+          <div className={'alert alert-warning'} ><span className={'spinner-grow'}></span><br/>Game already started. Just wait for a new match.</div>
+        )}
+        { this.state.game_phase === -1 && (
+          <div className={'alert alert-danger'} ><span className={'spinner-grow'}></span><br/>Connection to the server...</div>
+        )}
         { this.state.game_phase === 0 && (
           <LoginModal
             state={this.state.login_state}
@@ -43,7 +49,7 @@ class App extends Component {
               this.setState( {myself_uname: e.target.value});
             }}
             onSend={() => {
-              this.socket.emit( 'login', {username: this.state.myself_uname} );
+              this.socket.emit( 'login_u', {username: this.state.myself_uname} );
               this.setState( {login_state: 0} );
             }}
             />
@@ -58,7 +64,7 @@ class App extends Component {
         )}
 
         { this.state.game_phase === 0 && (
-          <PlayersList players={this.state.logged} />
+          <PlayersList players={this.state.players} />
         )}
 
         { this.state.game_phase === 1 && (
@@ -71,7 +77,7 @@ class App extends Component {
         )}
 
         { this.state.game_phase === 1 &&
-          this.state.logged.map( (player) => (
+          this.state.players.map( (player) => (
             <Player player={player} />
           ) )
         }

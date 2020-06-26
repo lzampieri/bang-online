@@ -13,6 +13,15 @@ export function initialize(theApp) {
     theApp.socket.on('noPlayers', () => {
         alert("Numero di giocatori connessi non adatto.");
     })
+
+    theApp.socket.on('updatePlayers', (updatePlayers) => {
+        console.log("Update players");
+        console.log(updatePlayers.players)
+        console.log(updatePlayers.players[0])
+        theApp.setState( {
+            players: updatePlayers.players
+        })
+    })
 }
 
 export function startGame(theApp) {
